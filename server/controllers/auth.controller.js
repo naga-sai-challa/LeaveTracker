@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
-const { addEmployee, getEmployee } = require("../services/auth.service");
+const { addEmployee, getEmployee, getUser, editUser } = require("../services/auth.service");
 const SECRET_KEY = "ffc";
 
 const register = async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
-        const newEmployee = await addEmployee({ name, email, password, role });
+        const { name, email, password } = req.body;
+        const newEmployee = await addEmployee({ name, email, password });
         const emp = {};
         emp.name = newEmployee.name;
         emp.email = newEmployee.email;
@@ -55,5 +55,26 @@ const login = async (req, res) => {
     }
 };
 
+const getCurrentUserDetails = async (req, res) => {
+    const id = req.user.id;
+    const user = await getUser(id);
+    res.send({
+        success: true,
+        employee: user
+    })
+}
 
-module.exports = { register, login };
+const editCurrentUser = async (req, res) => {
+    console.log("Controller")
+    const newDate = req.body;
+    const id = req.user.id;
+    console.log(id)
+    const user = await editUser(id, newDate);
+    res.send({
+        success: true,
+        employee: user
+    })
+}
+
+
+module.exports = { register, login, getCurrentUserDetails, editCurrentUser };

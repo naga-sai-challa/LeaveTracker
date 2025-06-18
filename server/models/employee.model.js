@@ -7,7 +7,8 @@ const employeeSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -16,13 +17,39 @@ const employeeSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['emp', 'admin'],
-        default: 'emp',
-        required: true
+        default: 'emp'
+    },
+    isApproved: {
+        type: Boolean,
+        default: false
+    },
+    phone: {
+        type: Number,
+        default: "",
+    },
+    address: {
+        type: String,
+        default: ""
+    },
+    profilePicture: {
+        type: String,
+        default: ""
     },
     leaveBalance: {
-        cs_sl: Number,
-        el: Number,
-        wfh: Number,
+        casual: { type: Number, default: 12 },
+        earned: { type: Number, default: 15 },
+        wfh: { type: Number, default: 18 },
+        unpaid: { type: Number, default: 0 }
+    },
+    leavesUsed: {
+        casual: { type: Number, default: 0 },
+        earned: { type: Number, default: 0 },
+        wfh: { type: Number, default: 0 },
+        unpaid: { type: Number, default: 0 }
+    },
+    domain: {
+        type: String,
+        require: true
     }
 })
 

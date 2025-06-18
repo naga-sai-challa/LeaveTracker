@@ -59,7 +59,5 @@ const approveLeave = async ({ leaveId }) => {
 }
 
 
-if(x===2) return y=3
-return y=4;
 
 module.exports = { pendingLeaves, approveLeave };

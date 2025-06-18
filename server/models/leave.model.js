@@ -8,24 +8,38 @@ const leaveSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ['cs_sl', 'el', 'wfh'],
+        enum: ['casual', 'earned', 'wfh', 'unpaid'],
         required: true
     },
-    from: {
+    startDate: {
         type: Date,
         required: true
     },
-    to: {
+    endDate: {
         type: Date,
         required: true
+    },
+    isHalfDay: {
+        type: Boolean,
+        default: false
+    },
+    comment: {
+        type: String,
+        default: "",
     },
     status: {
         type: String,
-        enum: ['pending', 'approved', 'rejected'],
-        default: 'pending',
-        required: true
+        enum: ["pending", "approved", "rejected"],
+        default: "pending",
     },
-
+    adminComment: {
+        type: String,
+        default: "",
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 const Leave = mongoose.model("Leave", leaveSchema);

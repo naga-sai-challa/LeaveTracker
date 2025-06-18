@@ -1,0 +1,66 @@
+.home-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #e6f4ea;
+    /* light green background */
+    font-family: 'Segoe UI', sans-serif;
+    color: #1a1a1a;
+}
+
+.home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: white;
+    border-bottom: 2px solid #d4f1d7;
+}
+
+.company-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2e7d32;
+    /* dark green */
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.header-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4ade80;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.header-btn:hover {
+    background-color: #4ade80;
+}
+
+.home-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.moto-heading {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 20px;
+}
+
+.moto-subtext {
+    font-size: 24px;
+    color: #4b4b4b;
+}
