@@ -1,181 +1,179 @@
-.leave-info-main {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    min-height: 100vh;
-    background-color: #ffffff;
-    /* clean white background */
-}
-
-.leave-info {
-    flex: 1;
-    padding: 20px;
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.leave-content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.side-bar {
-    min-width: 200px;
-    background-color: #4ade80;
-    /* green */
-    padding: 20px;
-    color: white;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.side-bar p {
-    margin: 0;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-}
-
-.side-bar p:hover {
-    background-color: white;
-    color: #4ade80;
-    font-weight: bold;
-}
-
 .table-container {
     flex: 1;
     overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 8px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
-    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", sans-serif;
+    text-transform: capitalize;
+    margin-bottom: 130px;
 }
 
 th,
 td {
-    border: 1px solid #e5e7eb;
-    padding: 12px;
+    padding: 14px 18px;
     text-align: center;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 15px;
+    white-space: nowrap;
 }
 
 th {
-    background-color: #f9fafb;
-    color: #4ade80;
+    
+    font-size: 15px;
     font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
 }
 
 td {
-    color: #111827;
+    color: #1f2937;
 }
 
-.edit-btn,
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Buttons */
+.edit-button,
 .save-btn,
 .cancel-btn,
 .delete-btn {
     padding: 6px 12px;
-    margin: 0 5px;
-    font-size: 14px;
+    margin: 0 4px;
+    font-size: 13px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+    text-transform: uppercase;
+    font-weight: 500;
 }
 
-.save-btn,
-.edit-btn {
+.edit-button,
+.save-btn {
     background-color: #4ade80;
     color: white;
 }
 
-.save-btn:hover,
-.edit-btn:hover {
-    background-color: #22c55e;
+.edit-button:hover,
+.save-btn:hover {
+    background-color: #4ade80;
 }
 
 .cancel-btn,
 .delete-btn {
-    background-color: #ef4444;
+    background-color: #aa6060;
     color: white;
 }
 
 .cancel-btn:hover,
 .delete-btn:hover {
-    background-color: #dc2626;
+    background-color: #991b1b;
 }
 
+/* Modal */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(31, 41, 55, 0.4);
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 1000;
+    justify-content: center;
+    z-index: 999;
 }
 
 .modal-content {
     background: white;
-    padding: 25px 30px;
-    border-radius: 10px;
-    width: 300px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 400px;
+    font-family: "Segoe UI", sans-serif;
 }
 
 .modal-content h3 {
-    color: #4ade80;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    color: #16a34a;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 .modal-content label {
     display: block;
     margin-bottom: 12px;
-    font-weight: 500;
+    font-size: 14px;
     color: #374151;
 }
 
-.modal-content input,
-.modal-content select {
+.modal-content select,
+.modal-content input[type="date"] {
     width: 100%;
     padding: 8px;
     border: 1px solid #d1d5db;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 14px;
     margin-top: 4px;
+}
+
+.modal-content select:focus,
+.modal-content input[type="date"]:focus {
+    border-color: #4ade80;
     outline: none;
 }
 
-.modal-content button {
-    margin-top: 10px;
-}
-
-
-
-/* Responsive */
+/* Responsive Table */
 @media screen and (max-width: 768px) {
-    .leave-content {
-        flex-direction: column;
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
     }
 
-    .side-bar {
-        width: 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
+    thead {
+        display: none;
     }
 
-    .table-container {
-        width: 100%;
+    tr {
+        margin-bottom: 15px;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        font-size: 14px;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 16px;
+        width: 45%;
+        padding-left: 10px;
+        font-weight: bold;
+        text-align: left;
+        text-transform: uppercase;
+        color: #4b5563;
     }
 }

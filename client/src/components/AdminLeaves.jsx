@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../Styles/MyLeaves.css";
 
-const MyLeaves = () => {
+const AdminLeaves = () => {
   const [leaveData, setLeaveData] = useState([]);
   const [editLeave, setEditLeave] = useState(null);
   const [updatedLeave, setUpdatedLeave] = useState({
@@ -175,4 +175,4 @@ const MyLeaves = () => {
   );
 };
 
-export default MyLeaves;
+export default AdminLeaves;

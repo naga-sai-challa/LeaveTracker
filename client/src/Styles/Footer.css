@@ -1,0 +1,49 @@
+.footer {
+    background-color: #1f2937;
+    /* Tailwind's gray-800 */
+    color: #ffffff;
+    padding: 2rem 0;
+    /* Increased padding for more height */
+    width: 100%;
+    margin-top: 25rem;
+    height: 200px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    /* spacing between text */
+    min-height: 120px;
+    /* ensure good vertical space */
+}
+
+.footer-text {
+    margin: 0;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.footer-brand {
+    font-weight: 600;
+    color: #60a5fa;
+    /* Tailwind's blue-400 */
+}
+
+@media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+    }
+
+    .footer-text {
+        text-align: left;
+    }
+}

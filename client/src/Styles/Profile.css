@@ -1,0 +1,127 @@
+/* Container for the whole page */
+.profile-page {
+    min-height: 100vh;
+    background: #f1f5f9;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Profile Card */
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Aligns all content to the left */
+    justify-content: space-evenly;
+    background-color: #fff;
+    padding: 30px 40px;
+    /* More horizontal padding for alignment */
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 30px;
+    text-align: left;
+    height: 50vh;
+}
+
+.profile-card h2 {
+    font-size: 32px;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+.profile-card p {
+    font-size: 18px;
+    color: #475569;
+    margin: 10px 0;
+}
+
+.profile-card strong {
+    color: #334155;
+    font-size: 18px;
+}
+
+.edit-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #566689;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    align-self: flex-start;
+    /* Align button with text */
+    transition: background 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #1d4ed8;
+}
+
+/* Popup Form Overlay */
+.popup-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30, 41, 59, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Edit Form */
+.edit-form {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.edit-form input {
+    padding: 12px;
+    font-size: 17px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    width: 100%;
+}
+
+.edit-form button {
+    padding: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.edit-form button[type="submit"] {
+    background-color: #10b981;
+    color: white;
+}
+
+.edit-form button[type="submit"]:hover {
+    background-color: #059669;
+}
+
+.edit-form button[type="button"] {
+    background-color: #845660;
+    color: white;
+}
+
+.edit-form button[type="button"]:hover {
+    background-color: #be123c;
+}

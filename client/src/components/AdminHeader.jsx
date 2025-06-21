@@ -2,24 +2,26 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/Header.css"; // Make sure this file exists
 
-const Header = () => {
+const AdminHeader = () => {
   const navigate = useNavigate();
   const [isLogout, setIsLogout] = useState(false);
 
   function logout() {
     localStorage.removeItem("token");
     setIsLogout(!isLogout);
-    setTimeout(() => navigate("/"), 2000);
+    setTimeout(() => navigate("/"), 3000);
   }
 
   return (
     <header className="main-header">
       <div className="header-content">
-        <div className="header-title">Leave Tracker</div>
+        <div className="header-title">Admin DashBoard</div>
         <nav className="header-links">
-          <Link to="/emp-dashboard">Dashboard</Link>
-          <Link to="/my-leaves">My Leaves</Link>
-          <Link to="/my-profile">My Profile</Link>
+          <Link to="/admin-dashboard">Dashboard</Link>
+          <Link to="/admin-leaves">My Leaves</Link>
+          <Link to="/get-pending-leaves">Get Pending Leaves</Link>
+          <Link to="/manage-emp">Employees</Link>
+          <Link to="/admin-profile">My Profile</Link>
           <button onClick={logout} className="logout-btn">
             Logout
           </button>
@@ -34,4 +36,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;

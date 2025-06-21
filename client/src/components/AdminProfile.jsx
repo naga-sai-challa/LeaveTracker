@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../Styles/Profile.css";
 
-const Profile = () => {
+const AdminProfile = () => {
   const [user, setUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
@@ -112,4 +112,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AdminProfile;
