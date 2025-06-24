@@ -1,0 +1,69 @@
+.leave-container {
+    padding: 20px;
+    background-color: #f3f4f6;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.leave-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.leave-grid {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    gap: 20px;
+}
+
+.leave-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.leave-type {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-bottom: 10px;
+}
+
+.leave-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.approve-button,
+.reject-button {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.approve-button {
+    background-color: #22c55e;
+}
+
+.approve-button:hover {
+    background-color: #16a34a;
+}
+
+.reject-button {
+    background-color: #ef4444;
+}
+
+.reject-button:hover {
+    background-color: #dc2626;
+}

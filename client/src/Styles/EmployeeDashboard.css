@@ -1,0 +1,609 @@
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header (Top Navbar) */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d1fae5;
+    /* Light green */
+    color: #065f46;
+    /* Dark green text */
+    padding: 1rem 2rem;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: #065f46;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+    background-color: #bbf7d0;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* Main container */
+.dashboard-container {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #f0fdf4;
+    /* Very light green background */
+    min-height: calc(100vh - 80px);
+}
+
+/* Form and calendar layout */
+.form-calendar-wrapper {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* Form Card */
+.form-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d1fae5;
+}
+
+.form-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #065f46;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #d1fae5;
+    padding-bottom: 0.5rem;
+}
+
+/* Form Styling */
+.leave-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #065f46;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    outline: none;
+    font-family: inherit;
+}
+
+.form-select {
+    background-color: white;
+    cursor: pointer;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+}
+
+.date-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.submit-button {
+    background-color: #4ade80;
+    /* Light green */
+    color: #065f46;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+}
+
+.submit-button:hover {
+    background-color: #22c55e;
+    /* Slightly darker green */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+/* Message styling */
+.message {
+    margin-top: 1rem;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    animation: slideIn 0.3s ease;
+}
+
+.message.success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #bbf7d0;
+}
+
+.message.error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Right Section */
+.right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.calendar-section,
+.holiday-section {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d1fae5;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #065f46;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #d1fae5;
+    padding-bottom: 0.5rem;
+}
+
+/* Calendar Wrapper */
+.calendar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Calendar Styling (for your BasicDateCalendar component) */
+.calendar-page {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    height: 430px;
+}
+
+.calendar-page .MuiTypography-root,
+.calendar-page .MuiPickersDay-root,
+.calendar-page .Mui-selected,
+.calendar-page .MuiSvgIcon-root {
+    font-size: 20px;
+}
+
+.calendar-page .Mui-selected {
+    background-color: #bbf7d0 !important;
+    color: #065f46 !important;
+}
+
+.calendar-page .MuiSvgIcon-root {
+    color: #4ade80 !important;
+}
+
+/* Holiday List */
+.holiday-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.holiday-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: #f0fdf4;
+    border-radius: 8px;
+    border: 1px solid #d1fae5;
+    transition: all 0.2s ease;
+}
+
+.holiday-item:hover {
+    background-color: #dcfce7;
+    transform: translateX(2px);
+}
+
+.holiday-date {
+    font-weight: bold;
+    color: #065f46;
+    font-size: 0.875rem;
+    background-color: #bbf7d0;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.holiday-name {
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+/* Holiday Image */
+.holiday-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d1fae5;
+}
+
+.holiday-image-wrapper img {
+    width: 100%;
+    max-width: 700px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+}
+
+/* Leave Balance Section */
+.leave-balance-section {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d1fae5;
+}
+
+.leave-balance-table {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+/* Table Styling */
+.balance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.balance-table th,
+.balance-table td {
+    padding: 16px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.balance-table th {
+    background-color: #d1fae5;
+    /* Light green header */
+    color: #065f46;
+    font-weight: bold;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table-row {
+    transition: all 0.2s ease;
+}
+
+.table-row:hover {
+    background-color: #f9fafb;
+    transform: scale(1.01);
+}
+
+.leave-type-cell {
+    font-weight: 600;
+    color: #065f46;
+}
+
+/* Badge Styling */
+.badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 30px;
+    text-align: center;
+}
+
+.badge-used {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.badge-unused {
+    background-color: #f0fdf4;
+    color: #065f46;
+}
+
+.badge-available {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.badge-low {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Progress Bar */
+.progress-container {
+    position: relative;
+    width: 100px;
+    height: 20px;
+    background-color: #f3f4f6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.progress-low {
+    background-color: #22c55e;
+}
+
+.progress-medium {
+    background-color: #f59e0b;
+}
+
+.progress-high {
+    background-color: #ef4444;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #374151;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+    .form-calendar-wrapper {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .dashboard-container {
+        padding: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
+
+    .dashboard-container {
+        padding: 1rem;
+    }
+
+    .form-card,
+    .calendar-section,
+    .holiday-section,
+    .leave-balance-section {
+        padding: 1.5rem;
+    }
+
+    .date-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .balance-table th,
+    .balance-table td {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+
+    .hide-mobile {
+        display: none;
+    }
+
+    .progress-container {
+        width: 80px;
+        height: 16px;
+    }
+
+    .progress-text {
+        font-size: 0.7rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .dashboard-header {
+        padding: 1rem;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav-links a {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .form-card,
+    .calendar-section,
+    .holiday-section,
+    .leave-balance-section {
+        padding: 1rem;
+    }
+
+    .form-title,
+    .section-title {
+        font-size: 1rem;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea,
+    .submit-button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .holiday-image-wrapper img {
+        max-width: 90%;
+    }
+
+    .balance-table {
+        font-size: 12px;
+    }
+
+    .balance-table th,
+    .balance-table td {
+        padding: 8px 6px;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        padding: 2px 6px;
+    }
+}
+
+/* Additional hover effects and animations */
+@media (hover: hover) {
+
+    .form-input:hover,
+    .form-select:hover,
+    .form-textarea:hover {
+        border-color: #bbf7d0;
+    }
+
+    .badge:hover {
+        transform: scale(1.05);
+    }
+
+    .holiday-image-wrapper:hover img {
+        transform: scale(1.02);
+        transition: transform 0.3s ease;
+    }
+}
+
+/* Focus visible for accessibility */
+.form-input:focus-visible,
+.form-select:focus-visible,
+.form-textarea:focus-visible,
+.submit-button:focus-visible {
+    outline: 2px solid #4ade80;
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+
+    .dashboard-header,
+    .calendar-section,
+    .holiday-section,
+    .holiday-image-wrapper {
+        display: none;
+    }
+
+    .dashboard-container {
+        background-color: white;
+        padding: 1rem;
+    }
+
+    .balance-table {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}

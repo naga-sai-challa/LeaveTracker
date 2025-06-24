@@ -1,0 +1,110 @@
+.home-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #e6f4ea;
+    /* light green background */
+    font-family: 'Segoe UI', sans-serif;
+    color: #1a1a1a;
+    background-color: #f0fdf4;
+}
+
+.home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: white;
+    border-bottom: 2px solid #d4f1d7;
+}
+
+.company-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2e7d32;
+    /* dark green */
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.header-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4ade80;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.header-btn:hover {
+    background-color: #4ade80;
+}
+
+.home-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.moto-heading {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 20px;
+}
+
+.moto-subtext {
+    font-size: 24px;
+    color: #4b4b4b;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 40px;
+    padding: 40px;
+    background-color: #f5fdf7;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card .icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+    color: #d4f1d7;
+    background-color: #f0fdf4;
+    border-radius: 50%;
+    display: inline-flex;
+    padding: 12px;
+}
+
+.feature-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 15px;
+    color: #4b5563;
+}
