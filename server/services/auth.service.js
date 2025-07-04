@@ -8,6 +8,7 @@ const addEmployee = async ({ name, email, password, phone, address }) => {
     if (userExisted) {
       throw new Error("User Already Existed");
     }
+    
     const domain = email.slice(email.indexOf("@") + 1);
     const companyExisted = await Employee.findOne({ domain });
     if (!companyExisted) {
