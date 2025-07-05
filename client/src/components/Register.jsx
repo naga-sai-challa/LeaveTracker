@@ -65,8 +65,8 @@ const Register = () => {
         justifyContent: "center",
       }}
     >
-      <Box
-        onSubmit={handleSubmit}
+      <Box component="form"
+        
         sx={{
           width: "100%",
           maxWidth: { xs: "90%", sm: "400px" },
@@ -123,7 +123,7 @@ const Register = () => {
             onChange={handleChange}
             label="Address"
           />
-          <Button variant="contained" style={{ backgroundColor: "#4ade80" }}>
+          <Button variant="contained" style={{ backgroundColor: "#4ade80" }}  onClick={handleSubmit}>
             Register
           </Button>
           <Typography>{message}</Typography>
