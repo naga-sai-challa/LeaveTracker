@@ -53,14 +53,14 @@ const applyLeave = async (req, res) => {
     if (start < today) {
       return res.status(400).json({
         success: false,
-        message: '"From" date cannot be in the past',
+        message: '"start" date cannot be in the past',
       });
     }
 
     if (end < start) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid date range: "To" should be after "From"',
+        message: 'Invalid date range: "end" should be after "start"',
       });
     }
 
@@ -104,7 +104,7 @@ const applyLeave = async (req, res) => {
       });
     }
 
-    // i am checking any approved leave is overlapping my requested leave or not
+    // i am checking my requested leave is overlapping any approved leave or not.
 
     const approvedLeaves = userLeaves.filter(
       (leave) => (leave.status === "approved" || leave.status === "shorten_approved" || leave.status === "extended_approved")
