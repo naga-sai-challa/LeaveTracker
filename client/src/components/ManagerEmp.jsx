@@ -133,9 +133,6 @@ const ManagerEmp = () => {
                 <td>{emp?.phone}</td>
                 <td>
                   <div className="button-group">
-                    <button onClick={() => makeAdmin(emp._id, "admin")}>
-                      Make Admin
-                    </button>
                     <button onClick={() => makeAdmin(emp._id, "emp")}>
                       Remove Admin
                     </button>

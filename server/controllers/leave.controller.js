@@ -73,47 +73,45 @@ const applyLeave = async (req, res) => {
     }
 
     
-    const userLeaves = await getLeaves({ userId: user.id });
-
+    
     // New condition: check for any ongoing approved leave(on a leave period you can't take a another leave but you can extend or shorten the leave)
-    const now = new Date();
-    const incompleteApprovedLeave = userLeaves.find((leave) => {
-      const leaveEnd = new Date(leave.endDate);
-      return (
-        ["approved", "shorten_approved", "extended_approved"].includes(
-          leave.status
-        ) && leaveEnd >= now
-      );
-    });
+    // const now = new Date();
+    // const incompleteApprovedLeave = userLeaves.find((leave) => {
+    //   const leaveEnd = new Date(leave.endDate);
+    //   return (
+    //     ["approved", "shorten_approved", "extended_approved"].includes(
+    //       leave.status
+    //     ) && leaveEnd >= now
+    //   );
+    // });
 
-    if (incompleteApprovedLeave) {
-      throw new Error("You already have an ongoing approved leave");
-    }
+    // if (incompleteApprovedLeave) {
+    //   throw new Error("You already have an ongoing approved leave");
+    // }
 
-    if (userLeaves.length > 0) {
-      userLeaves.forEach((leave) => {
-        if (leave.status === "pending") {
-          throw new Error("you have already a pending leave request");
-        } else if (leave.status === "extended_requested") {
-          throw new Error(
-            "you have already a extended_requested leave request"
-          );
-        } else if (leave.status === "shorten_requested") {
-          throw new Error("you have already a shorten_requested leave request");
-        }
-      });
-    }
+    // if (userLeaves.length > 0) {
+    //   userLeaves.forEach((leave) => {
+    //     if (leave.status === "pending") {
+    //       throw new Error("you have already a pending leave request");
+    //     } else if (leave.status === "extended_requested") {
+      //       throw new Error(
+        //         "you have already a extended_requested leave request"
+    //       );
+    //     } else if (leave.status === "shorten_requested") {
+    //       throw new Error("you have already a shorten_requested leave request");
+    //     }
+    //   });
+    // }
 
+    
     // i am checking my requested leave is overlapping any approved leave or not.
-
-    const approvedLeaves = userLeaves.filter(
-      (leave) => (leave.status === "approved" || leave.status === "shorten_approved" || leave.status === "extended_approved")
-    );
+    
+    const userLeaves = await getLeaves({ userId: user.id });
 
     const newFrom = new Date(startDate);
     const newToDate = new Date(endDate);
 
-    for (const leave of approvedLeaves) {
+    for (const leave of userLeaves) {
       const existingFrom = new Date(leave.from);
       const existingTo = new Date(leave.to);
 
@@ -134,6 +132,10 @@ const applyLeave = async (req, res) => {
     // here i am substrscting total leave balance with my used leave balance to get my remaning leave balance
     if (totalDays > (user.leaveBalance[type] - user.leavesUsed[type])) {
       throw new Error(`you don't have sufficient ${type} leave balance`);
+    }
+
+    if(isHalfDay){
+     if(startDate != endDate) throw new Error(`for half day leave the start date and end date must be same !`);
     }
 
     // Create the leave

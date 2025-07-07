@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../Styles/RegisterForm.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -57,68 +57,82 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <h2>Register</h2>
-      <form className="register-form" onSubmit={handleSubmit}>
-        <label>
-          Name<span className="required">*</span>
-          <input
+    <Box
+      sx={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Box component="form"
+        
+        sx={{
+          width: "100%",
+          maxWidth: { xs: "90%", sm: "400px" },
+          borderRadius: 2,
+          boxShadow: 4,
+          padding: { xs: 5, sm: 4 },
+        }}
+      >
+        <Stack spacing={2}>
+          <Typography variant="h5" fontWeight={"bold"} textAlign={"center"}>
+            Register
+          </Typography>
+          <TextField
             type="text"
             name="name"
+            label="Name"
             value={formData.name}
             onChange={handleChange}
+            fullWidth
           />
-          {errors.name && <p className="error">{errors.name}</p>}
-        </label>
-
-        <label>
-          Email<span className="required">*</span>
-          <input
+          {errors.name && <Typography>{errors.name}</Typography>}
+          <TextField
             type="email"
             name="email"
+            label="Email"
             value={formData.email}
             onChange={handleChange}
+            fullWidth
           />
           {errors.email && <p className="error">{errors.email}</p>}
-        </label>
 
-        <label>
-          Password<span className="required">*</span>
-          <input
+          <TextField
             type="password"
             name="password"
+            label="Password"
             value={formData.password}
             onChange={handleChange}
+            fullWidth
           />
           {errors.password && <p className="error">{errors.password}</p>}
-        </label>
 
-        <label>
-          Phone (optional)
-          <input
+          <TextField
             type="tel"
             name="phone"
+            label="Phone"
             value={formData.phone}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
 
-        <label>
-          Address (optional)
-          <textarea
+          <TextField
             name="address"
             value={formData.address}
             onChange={handleChange}
-            rows="3"
+            label="Address"
           />
-        </label>
-        <button type="submit">Register</button>
-        <p>{message}</p>
-        <p className="back-home">
-          <Link to="/">← Back to Home</Link>
-        </p>
-      </form>
-    </div>
+          <Button variant="contained" style={{ backgroundColor: "#4ade80" }}  onClick={handleSubmit}>
+            Register
+          </Button>
+          <Typography>{message}</Typography>
+          <Typography textAlign={"center"}>
+            <Link to="/">← Back to Home</Link>
+          </Typography>
+        </Stack>
+      </Box>
+    </Box>
   );
 };
 

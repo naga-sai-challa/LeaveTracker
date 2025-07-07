@@ -2,6 +2,20 @@ import React, { useEffect, useState } from "react";
 import "../Styles/EmployeeDashboard.css";
 import axios from "axios";
 import BasicDateCalendar from "./BasicDateCalendar";
+import { 
+  Checkbox, 
+  FormControlLabel, 
+  Button, 
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogActions,
+  Box,
+  Paper,
+  Snackbar,
+  Alert
+} from "@mui/material";
+import { styled } from '@mui/material/styles';
 
 const EmployeeDashboard = () => {
   const [formData, setFormData] = useState({
@@ -9,9 +23,15 @@ const EmployeeDashboard = () => {
     startDate: "",
     endDate: "",
     comment: "",
+    isHalfDay: false,
   });
   const [empData, setEmpData] = useState({});
-  const [message, setMessage] = useState("");
+  const [openDialog, setOpenDialog] = useState(null);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success"
+  });
 
   useEffect(() => {
     async function getLeaveData() {
@@ -33,7 +53,15 @@ const EmployeeDashboard = () => {
   }, []);
 
   function handleInput(e) {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => {
+      if (e.target.name == "endDate" || e.target.name == "startDate") {
+        if (prev.isHalfDay) {
+          prev.endDate = e.target.value;
+          prev.startDate = e.target.value;
+        }
+      }
+      return { ...prev, [e.target.name]: e.target.value };
+    });
   }
 
   async function handleSubmit(e) {
@@ -41,7 +69,7 @@ const EmployeeDashboard = () => {
 
     // Basic validation
     if (!formData.type || !formData.startDate || !formData.endDate) {
-      setMessage("Please fill in all required fields!");
+      showSnackbar("Please fill in all required fields!", "error");
       return;
     }
 
@@ -55,7 +83,7 @@ const EmployeeDashboard = () => {
           },
         }
       );
-      setMessage(response.data.message);
+      showSnackbar(response.data.message, "success");
 
       // Clear form on successful submission
       setFormData({
@@ -63,11 +91,24 @@ const EmployeeDashboard = () => {
         startDate: "",
         endDate: "",
         comment: "",
+        isHalfDay: false
       });
     } catch (error) {
-      setMessage(error.response?.data?.message || "Something went wrong");
+      showSnackbar(error.response?.data?.message || "Something went wrong", "error");
     }
   }
+
+  const showSnackbar = (message, severity) => {
+    setSnackbar({
+      open: true,
+      message,
+      severity
+    });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(prev => ({...prev, open: false}));
+  };
 
   const leaveTypes = [
     { value: "casual", label: "Casual Leave" },
@@ -76,6 +117,38 @@ const EmployeeDashboard = () => {
     { value: "unpaid", label: "Unpaid Leave" },
   ];
 
+  const handleOpenDialog = (dialogType) => {
+    setOpenDialog(dialogType);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(null);
+  };
+
+  const StyledButton = styled(Button)(({ theme }) => ({
+    backgroundColor: '#4ade80',
+    color: '#065f46',
+    fontWeight: 'bold',
+    padding: '10px 20px',
+    borderRadius: '8px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#22c55e',
+      transform: 'translateY(-2px)',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    },
+    transition: 'all 0.3s ease',
+  }));
+
+  const DialogButton = styled(Button)(({ theme }) => ({
+    backgroundColor: '#4ade80',
+    color: '#065f46',
+    fontWeight: 'bold',
+    '&:hover': {
+      backgroundColor: '#22c55e',
+    },
+  }));
+
   return (
     <>
       {/* Header */}
@@ -83,7 +156,31 @@ const EmployeeDashboard = () => {
 
       {/* Main Dashboard Container */}
       <div className="dashboard-container">
-        {/* Top Section - Form and Calendar */}
+        {/* Action Buttons */}
+        <Box sx={{ 
+          display: 'flex', 
+          gap: 2, 
+          justifyContent: 'center',
+          mb: 4,
+          flexWrap: 'wrap'
+        }}>
+          <StyledButton 
+            variant="contained" 
+            onClick={() => handleOpenDialog('balance')}
+            sx={{ minWidth: 200 }}
+          >
+            View Leave Balance
+          </StyledButton>
+          <StyledButton 
+            variant="contained" 
+            onClick={() => handleOpenDialog('holidays')}
+            sx={{ minWidth: 200 }}
+          >
+            View Holiday List
+          </StyledButton>
+        </Box>
+
+        {/* Form and Calendar Layout */}
         <div className="form-calendar-wrapper">
           {/* Leave Application Form */}
           <div className="form-card">
@@ -133,6 +230,41 @@ const EmployeeDashboard = () => {
               </div>
 
               <div className="form-group">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formData.isHalfDay}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+
+                        setFormData((prev) => {
+                          let updated = { ...prev, isHalfDay: checked };
+
+                          if (checked) {
+                            const today = new Date()
+                              .toISOString()
+                              .split("T")[0];
+
+                            if (!prev.startDate) {
+                              updated.startDate = today;
+                              updated.endDate = today;
+                            } else {
+                              updated.endDate = prev.startDate;
+                            }
+                          }
+
+                          return updated;
+                        });
+                      }}
+                      name="isHalfDay"
+                      color="primary"
+                    />
+                  }
+                  label="Apply for Half Day"
+                />
+              </div>
+
+              <div className="form-group">
                 <label className="form-label">Reason (Optional)</label>
                 <textarea
                   value={formData.comment}
@@ -147,22 +279,11 @@ const EmployeeDashboard = () => {
               <button type="submit" className="submit-button">
                 Submit Application
               </button>
-
-              {message && (
-                <div
-                  className={`message ${
-                    message.includes("success") ? "success" : "error"
-                  }`}
-                >
-                  {message}
-                </div>
-              )}
             </form>
           </div>
 
-          {/* Right Section - Calendar and Holiday Info */}
+          {/* Calendar Section */}
           <div className="right-section">
-            {/* Calendar Component */}
             <div className="calendar-section">
               <h3 className="section-title">Calendar</h3>
               <div className="calendar-wrapper">
@@ -172,79 +293,157 @@ const EmployeeDashboard = () => {
           </div>
         </div>
 
-        {/* Leave Balance Table */}
-        <div className="leave-balance-section">
-          <h2 className="section-title">Leave Balance Summary</h2>
-          <div className="leave-balance-table">
-            <table className="balance-table">
-              <thead>
-                <tr>
-                  <th>Leave Type</th>
-                  <th>Total Allocated</th>
-                  <th>Used</th>
-                  <th>Available</th>
-                  <th className="hide-mobile">Utilization</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaveTypes.map((type) => {
-                  const total =
-                    empData?.employee?.leaveBalance?.[type.value] || 0;
-                  const used = empData?.employee?.leavesUsed?.[type.value] || 0;
-                  const available = total - used;
-                  const utilization =
-                    total > 0 ? Math.round((used / total) * 100) : 0;
+        {/* Dialogs */}
+        {/* Leave Balance Dialog */}
+        <Dialog
+          open={openDialog === 'balance'}
+          onClose={handleCloseDialog}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle sx={{ 
+            backgroundColor: '#d1fae5', 
+            color: '#065f46',
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
+          }}>
+            <span>Your Leave Balance</span>
+          </DialogTitle>
+          <DialogContent sx={{ p: 3 }}>
+            <Paper elevation={0} sx={{ p: 2, borderRadius: 2 }}>
+              <table className="balance-table" style={{ width: '100%' }}>
+                <thead>
+                  <tr>
+                    <th>Leave Type</th>
+                    <th>Total Allocated</th>
+                    <th>Used</th>
+                    <th>Available</th>
+                    <th>Utilization</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaveTypes.map((type) => {
+                    const total =
+                      empData?.employee?.leaveBalance?.[type.value] || 0;
+                    const used = empData?.employee?.leavesUsed?.[type.value] || 0;
+                    const available = total - used;
+                    const utilization =
+                      total > 0 ? Math.round((used / total) * 100) : 0;
 
-                  return (
-                    <tr key={type.value} className="table-row">
-                      <td className="leave-type-cell">
-                        <strong>{type.label}</strong>
-                      </td>
-                      <td>{total}</td>
-                      <td>
-                        <span
-                          className={`badge ${
-                            used > 0 ? "badge-used" : "badge-unused"
-                          }`}
-                        >
-                          {used}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className={`badge ${
-                            available > 5 ? "badge-available" : "badge-low"
-                          }`}
-                        >
-                          {available}
-                        </span>
-                      </td>
-                      <td className="hide-mobile">
-                        <div className="progress-container">
-                          <div
-                            className={`progress-bar ${
-                              utilization > 80
-                                ? "progress-high"
-                                : utilization > 60
-                                ? "progress-medium"
-                                : "progress-low"
+                    return (
+                      <tr key={type.value} className="table-row">
+                        <td className="leave-type-cell">
+                          <strong>{type.label}</strong>
+                        </td>
+                        <td>{total}</td>
+                        <td>
+                          <span
+                            className={`badge ${
+                              used > 0 ? "badge-used" : "badge-unused"
                             }`}
-                            style={{ width: `${utilization}%` }}
-                          ></div>
-                          <span className="progress-text">{utilization}%</span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        {/* Holiday Image */}
-        <div className="holiday-image-wrapper">
-          <img src="/public_holidays.png" alt="Public Holidays" />
-        </div>
+                          >
+                            {used}
+                          </span>
+                        </td>
+                        <td>
+                          <span
+                            className={`badge ${
+                              available > 5 ? "badge-available" : "badge-low"
+                            }`}
+                          >
+                            {available}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="progress-container">
+                            <div
+                              className={`progress-bar ${
+                                utilization > 80
+                                  ? "progress-high"
+                                  : utilization > 60
+                                  ? "progress-medium"
+                                  : "progress-low"
+                              }`}
+                              style={{ width: `${utilization}%` }}
+                            ></div>
+                            <span className="progress-text">{utilization}%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Paper>
+          </DialogContent>
+          <DialogActions>
+            <DialogButton onClick={handleCloseDialog}>Close</DialogButton>
+          </DialogActions>
+        </Dialog>
+
+        {/* Holidays Dialog */}
+        <Dialog
+          open={openDialog === 'holidays'}
+          onClose={handleCloseDialog}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle sx={{ 
+            backgroundColor: '#d1fae5', 
+            color: '#065f46',
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
+          }}>
+            <span>Public Holidays</span>
+          </DialogTitle>
+          <DialogContent sx={{ 
+            p: 3,
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <Box sx={{ 
+              width: '100%',
+              p: 2,
+              borderRadius: 2,
+              display: 'flex',
+              justifyContent: 'center'
+            }}>
+              <img 
+                src="/public_holidays.png" 
+                alt="Public Holidays" 
+                style={{ 
+                  maxWidth: '100%',
+                  height: 'auto',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+                }} 
+              />
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <DialogButton onClick={handleCloseDialog}>Close</DialogButton>
+          </DialogActions>
+        </Dialog>
+
+        {/* Snackbar for messages */}
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          <Alert 
+            onClose={handleCloseSnackbar} 
+            severity={snackbar.severity}
+            sx={{ width: '100%' }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );
