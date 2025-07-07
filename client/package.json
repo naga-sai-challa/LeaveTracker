@@ -15,6 +15,7 @@
     "axios": "^1.10.0",
     "cloudinary": "^2.6.1",
     "dayjs": "^1.11.13",
+    "material-ui-popup-state": "^5.3.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.6.2",
