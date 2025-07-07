@@ -10,6 +10,7 @@ const SECRET_KEY = "ffc";
 const register = async (req, res) => {
   try {
     const { name, email, password, phone, address } = req.body;
+    console.log(name)
     const newEmployee = await addEmployee({
       name,
       email,

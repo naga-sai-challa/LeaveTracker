@@ -177,3 +177,24 @@ tr:last-child td {
         color: #4b5563;
     }
 }
+
+
+.extend-btn,
+.shorten-btn {
+    padding: 6px 12px;
+    margin: 0 4px;
+    font-size: 13px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    text-transform: uppercase;
+    font-weight: 500;
+    background-color: #4ade80;
+    color: white;
+}
+
+.extend-btn:hover,
+.shorten-btn:hover {
+    background-color: #4ade80;
+}

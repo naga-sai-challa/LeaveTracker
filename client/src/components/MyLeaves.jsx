@@ -5,6 +5,7 @@ import "../Styles/MyLeaves.css";
 const MyLeaves = () => {
   const [leaveData, setLeaveData] = useState([]);
   const [editLeave, setEditLeave] = useState(null);
+  const [editMode, setEditMode] = useState(""); // "edit", "extend", "shorten"
   const [updatedLeave, setUpdatedLeave] = useState({
     type: "",
     startDate: "",
@@ -12,7 +13,7 @@ const MyLeaves = () => {
   });
 
   useEffect(() => {
-    async function myLeaves() {
+    async function fetchLeaves() {
       try {
         const response = await axios.get(
           "http://localhost:5000/employee/my-leaves",
@@ -25,13 +26,15 @@ const MyLeaves = () => {
         setLeaveData(response.data.data);
       } catch (error) {
         console.log(error.response?.data || error.message);
+        alert(error.response?.data.message || error.message);
       }
     }
-    myLeaves();
+    fetchLeaves();
   }, []);
 
-  const handleEditClick = (leave) => {
+  const openModal = (leave, mode) => {
     setEditLeave(leave);
+    setEditMode(mode);
     setUpdatedLeave({
       type: leave.type,
       startDate: leave.startDate.slice(0, 10),
@@ -39,21 +42,66 @@ const MyLeaves = () => {
     });
   };
 
-  const handleUpdate = async () => {
+  const handleEditUpdate = async () => {
     try {
       await axios.put(
         `http://localhost:5000/employee/edit-leave`,
-        { leaveID: editLeave._id, ...editLeave, ...updatedLeave },
+        {
+          leaveID: editLeave._id,
+          ...updatedLeave,
+        },
         {
           headers: {
             token: localStorage.getItem("token"),
           },
         }
       );
-      setEditLeave(null); // close modal
-      window.location.reload(); // or re-fetch the data
+      closeModalAndRefresh();
     } catch (error) {
       console.log(error.response?.data || error.message);
+      alert(error.response?.data.message || error.message);
+    }
+  };
+
+  const handleExtendUpdate = async () => {
+    try {
+      await axios.put(
+        `http://localhost:5000/employee/extend-leave`,
+        {
+          leaveID: editLeave._id,
+          endDate: updatedLeave.endDate,
+        },
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      closeModalAndRefresh();
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+      alert(error.response?.data.message || error.message);
+    }
+  };
+
+  const handleShortenUpdate = async () => {
+    try {
+      await axios.put(
+        `http://localhost:5000/employee/shorten-leave`,
+        {
+          leaveID: editLeave._id,
+          endDate: updatedLeave.endDate,
+        },
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      closeModalAndRefresh();
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+      alert(error.response?.data.message || error.message);
     }
   };
 
@@ -67,8 +115,91 @@ const MyLeaves = () => {
       setLeaveData(leaveData.filter((leave) => leave._id !== id));
     } catch (error) {
       console.log(error.response?.data || error.message);
+      alert(error.response?.data.message || error.message);
     }
   };
+
+  const closeModalAndRefresh = () => {
+    setEditLeave(null);
+    setEditMode("");
+    window.location.reload();
+  };
+
+  const renderModal = () => {
+    if (!editLeave) return null;
+
+    const isEdit = editMode === "edit";
+    const isExtend = editMode === "extend";
+    const isShorten = editMode === "shorten";
+
+    let title = "";
+    let onSubmit;
+    if (isEdit) {
+      title = "Edit Leave";
+      onSubmit = handleEditUpdate;
+    } else if (isExtend) {
+      title = "Extend Leave";
+      onSubmit = handleExtendUpdate;
+    } else if (isShorten) {
+      title = "Shorten Leave";
+      onSubmit = handleShortenUpdate;
+    }
+
+    return (
+      <div className="modal">
+        <div className="modal-content">
+          <h3>{title}</h3>
+          <label>
+            Type:
+            <select
+              value={updatedLeave.type}
+              onChange={(e) =>
+                setUpdatedLeave({ ...updatedLeave, type: e.target.value })
+              }
+              disabled={!isEdit}
+            >
+              <option value="casual">Casual</option>
+              <option value="earned">Earned</option>
+              <option value="wfh">WFH</option>
+              <option value="unpaid">Unpaid</option>
+            </select>
+          </label>
+          <label>
+            Start Date:
+            <input
+              type="date"
+              value={updatedLeave.startDate}
+              onChange={(e) =>
+                setUpdatedLeave({ ...updatedLeave, startDate: e.target.value })
+              }
+              disabled={!isEdit}
+            />
+          </label>
+          <label>
+            End Date:
+            <input
+              type="date"
+              value={updatedLeave.endDate}
+              onChange={(e) =>
+                setUpdatedLeave({ ...updatedLeave, endDate: e.target.value })
+              }
+            />
+          </label>
+          <button className="save-btn" onClick={onSubmit}>
+            Save
+          </button>
+          <button className="cancel-btn" onClick={closeModalAndRefresh}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const canEdit = (status) => status === "pending";
+  const canDelete = (status) => status === "pending";
+  const canExtendOrShorten = (status) =>
+    ["approved", "shorten_approved", "extended_approved"].includes(status);
 
   return (
     <div>
@@ -95,19 +226,35 @@ const MyLeaves = () => {
                     <td>{leave.endDate.slice(0, 10)}</td>
                     <td>{leave.status}</td>
                     <td>
-                      {leave.status === "pending" && (
+                      {canEdit(leave.status) && (
+                        <button
+                          className="edit-button"
+                          onClick={() => openModal(leave, "edit")}
+                        >
+                          Edit
+                        </button>
+                      )}
+                      {canDelete(leave.status) && (
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleDelete(leave._id)}
+                        >
+                          Delete
+                        </button>
+                      )}
+                      {canExtendOrShorten(leave.status) && (
                         <>
                           <button
-                            className="edit-button"
-                            onClick={() => handleEditClick(leave)}
+                            className="extend-btn"
+                            onClick={() => openModal(leave, "extend")}
                           >
-                            Edit
+                            Extend Leave
                           </button>
                           <button
-                            className="delete-btn"
-                            onClick={() => handleDelete(leave._id)}
+                            className="shorten-btn"
+                            onClick={() => openModal(leave, "shorten")}
                           >
-                            Delete
+                            Shorten Leave
                           </button>
                         </>
                       )}
@@ -119,58 +266,7 @@ const MyLeaves = () => {
           </div>
         )}
       </div>
-
-      {/* Modal */}
-      {editLeave && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Edit Leave</h3>
-            <label>
-              Type:
-              <select
-                value={updatedLeave.type}
-                onChange={(e) =>
-                  setUpdatedLeave({ ...updatedLeave, type: e.target.value })
-                }
-              >
-                <option value="casual">Casual</option>
-                <option value="earned">Earned</option>
-                <option value="wfh">WFH</option>
-                <option value="unpaid">Unpaid</option>
-              </select>
-            </label>
-            <label>
-              Start Date:
-              <input
-                type="date"
-                value={updatedLeave.startDate}
-                onChange={(e) =>
-                  setUpdatedLeave({
-                    ...updatedLeave,
-                    startDate: e.target.value,
-                  })
-                }
-              />
-            </label>
-            <label>
-              End Date:
-              <input
-                type="date"
-                value={updatedLeave.endDate}
-                onChange={(e) =>
-                  setUpdatedLeave({ ...updatedLeave, endDate: e.target.value })
-                }
-              />
-            </label>
-            <button className="save-btn" onClick={handleUpdate}>
-              Save
-            </button>
-            <button className="cancel-btn" onClick={() => setEditLeave(null)}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+      {renderModal()}
     </div>
   );
 };
