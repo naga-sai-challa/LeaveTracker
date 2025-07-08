@@ -1,86 +1,160 @@
 .main-header {
-    background-color: #4ade80;
-    /* dark blue-gray */
-    padding: 16px 32px;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #4ade80;
+  padding: 16px 32px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .header-title {
-    font-size: 24px;
-    font-weight: bold;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .header-links {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 .header-links a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
 .header-links a:hover {
-    background-color: white;
-    color: black;
-    /* slight highlight */
+  background-color: white;
+  color: black;
 }
 
 .logout-btn {
-    background-color: transparent;
-    color: white;
-    padding: 10px 16px;
-    border: 1px solid #4ade80;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  background-color: transparent;
+  color: white;
+  padding: 10px 16px;
+  border: 1px solid #4ade80;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: inherit;
 }
 
 .logout-btn:hover {
-    background-color: #4ade80;
-    color: #065f46;
+  background-color: #4ade80;
+  color: #065f46;
 }
 
-/* Popup only, no full-screen overlay */
+/* Mobile menu button - hidden by default */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* Popup styling */
 .logout-pop-up {
-    position: fixed;
-    top: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    /* Light green */
-    color: #065f46;
-    /* Dark green text */
-    border: 2px solid #10b981;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    font-weight: 600;
-    z-index: 9999;
-    animation: fadeIn 0.3s ease-in-out;
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: #065f46;
+  border: 2px solid #10b981;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Optional fade-in animation */
+/* Animation */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-10px);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
 
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 10px;
+  }
+
+  .header-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #4ade80;
+    flex-direction: column;
+    gap: 0;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .header-links.active {
+    transform: translateY(0);
+  }
+
+  .header-links a {
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  .header-links a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .logout-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px 0;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-header {
+    padding: 12px 16px;
+  }
+
+  .header-title {
+    font-size: 20px;
+  }
+
+  .logout-pop-up {
+    width: 90%;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+  }
 }

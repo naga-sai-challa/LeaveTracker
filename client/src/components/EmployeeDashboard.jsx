@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import "../Styles/EmployeeDashboard.css";
 import axios from "axios";
 import BasicDateCalendar from "./BasicDateCalendar";
-import { 
-  Checkbox, 
-  FormControlLabel, 
-  Button, 
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
+import {
+  Checkbox,
+  FormControlLabel,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
   DialogActions,
   Box,
   Paper,
   Snackbar,
-  Alert
+  Alert,
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
 const EmployeeDashboard = () => {
   const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ const EmployeeDashboard = () => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "success"
+    severity: "success",
   });
 
   useEffect(() => {
@@ -91,10 +91,13 @@ const EmployeeDashboard = () => {
         startDate: "",
         endDate: "",
         comment: "",
-        isHalfDay: false
+        isHalfDay: false,
       });
     } catch (error) {
-      showSnackbar(error.response?.data?.message || "Something went wrong", "error");
+      showSnackbar(
+        error.response?.data?.message || "Something went wrong",
+        "error"
+      );
     }
   }
 
@@ -102,12 +105,12 @@ const EmployeeDashboard = () => {
     setSnackbar({
       open: true,
       message,
-      severity
+      severity,
     });
   };
 
   const handleCloseSnackbar = () => {
-    setSnackbar(prev => ({...prev, open: false}));
+    setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
   const leaveTypes = [
@@ -126,54 +129,59 @@ const EmployeeDashboard = () => {
   };
 
   const StyledButton = styled(Button)(({ theme }) => ({
-    backgroundColor: '#4ade80',
-    color: '#065f46',
-    fontWeight: 'bold',
-    padding: '10px 20px',
-    borderRadius: '8px',
-    textTransform: 'none',
-    '&:hover': {
-      backgroundColor: '#22c55e',
-      transform: 'translateY(-2px)',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: "#4ade80",
+    color: "#065f46",
+    fontWeight: "bold",
+    padding: "10px 20px",
+    borderRadius: "8px",
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: "#22c55e",
+      transform: "translateY(-2px)",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     },
-    transition: 'all 0.3s ease',
+    transition: "all 0.3s ease",
+    "@media (max-width: 600px)": {
+      width: "100%",
+    },
   }));
 
   const DialogButton = styled(Button)(({ theme }) => ({
-    backgroundColor: '#4ade80',
-    color: '#065f46',
-    fontWeight: 'bold',
-    '&:hover': {
-      backgroundColor: '#22c55e',
+    backgroundColor: "#4ade80",
+    color: "#065f46",
+    fontWeight: "bold",
+    "&:hover": {
+      backgroundColor: "#22c55e",
     },
   }));
 
   return (
     <>
-      {/* Header */}
-      <header></header>
-
-      {/* Main Dashboard Container */}
       <div className="dashboard-container">
         {/* Action Buttons */}
-        <Box sx={{ 
-          display: 'flex', 
-          gap: 2, 
-          justifyContent: 'center',
-          mb: 4,
-          flexWrap: 'wrap'
-        }}>
-          <StyledButton 
-            variant="contained" 
-            onClick={() => handleOpenDialog('balance')}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            justifyContent: "center",
+            mb: 4,
+            flexWrap: "wrap",
+            "@media (max-width: 600px)": {
+              flexDirection: "column",
+              alignItems: "center",
+            },
+          }}
+        >
+          <StyledButton
+            variant="contained"
+            onClick={() => handleOpenDialog("balance")}
             sx={{ minWidth: 200 }}
           >
             View Leave Balance
           </StyledButton>
-          <StyledButton 
-            variant="contained" 
-            onClick={() => handleOpenDialog('holidays')}
+          <StyledButton
+            variant="contained"
+            onClick={() => handleOpenDialog("holidays")}
             sx={{ minWidth: 200 }}
           >
             View Holiday List
@@ -296,24 +304,26 @@ const EmployeeDashboard = () => {
         {/* Dialogs */}
         {/* Leave Balance Dialog */}
         <Dialog
-          open={openDialog === 'balance'}
+          open={openDialog === "balance"}
           onClose={handleCloseDialog}
           maxWidth="md"
           fullWidth
         >
-          <DialogTitle sx={{ 
-            backgroundColor: '#d1fae5', 
-            color: '#065f46',
-            fontWeight: 'bold',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1
-          }}>
+          <DialogTitle
+            sx={{
+              backgroundColor: "#d1fae5",
+              color: "#065f46",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <span>Your Leave Balance</span>
           </DialogTitle>
           <DialogContent sx={{ p: 3 }}>
             <Paper elevation={0} sx={{ p: 2, borderRadius: 2 }}>
-              <table className="balance-table" style={{ width: '100%' }}>
+              <table className="balance-table">
                 <thead>
                   <tr>
                     <th>Leave Type</th>
@@ -327,7 +337,8 @@ const EmployeeDashboard = () => {
                   {leaveTypes.map((type) => {
                     const total =
                       empData?.employee?.leaveBalance?.[type.value] || 0;
-                    const used = empData?.employee?.leavesUsed?.[type.value] || 0;
+                    const used =
+                      empData?.employee?.leavesUsed?.[type.value] || 0;
                     const available = total - used;
                     const utilization =
                       total > 0 ? Math.round((used / total) * 100) : 0;
@@ -368,7 +379,9 @@ const EmployeeDashboard = () => {
                               }`}
                               style={{ width: `${utilization}%` }}
                             ></div>
-                            <span className="progress-text">{utilization}%</span>
+                            <span className="progress-text">
+                              {utilization}%
+                            </span>
                           </div>
                         </td>
                       </tr>
@@ -385,42 +398,48 @@ const EmployeeDashboard = () => {
 
         {/* Holidays Dialog */}
         <Dialog
-          open={openDialog === 'holidays'}
+          open={openDialog === "holidays"}
           onClose={handleCloseDialog}
           maxWidth="md"
           fullWidth
         >
-          <DialogTitle sx={{ 
-            backgroundColor: '#d1fae5', 
-            color: '#065f46',
-            fontWeight: 'bold',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1
-          }}>
+          <DialogTitle
+            sx={{
+              backgroundColor: "#d1fae5",
+              color: "#065f46",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <span>Public Holidays</span>
           </DialogTitle>
-          <DialogContent sx={{ 
-            p: 3,
-            display: 'flex',
-            justifyContent: 'center'
-          }}>
-            <Box sx={{ 
-              width: '100%',
-              p: 2,
-              borderRadius: 2,
-              display: 'flex',
-              justifyContent: 'center'
-            }}>
-              <img 
-                src="/public_holidays.png" 
-                alt="Public Holidays" 
-                style={{ 
-                  maxWidth: '100%',
-                  height: 'auto',
-                  borderRadius: '8px',
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-                }} 
+          <DialogContent
+            sx={{
+              p: 3,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                p: 2,
+                borderRadius: 2,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src="/public_holidays.png"
+                alt="Public Holidays"
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                }}
               />
             </Box>
           </DialogContent>
@@ -434,12 +453,12 @@ const EmployeeDashboard = () => {
           open={snackbar.open}
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
         >
-          <Alert 
-            onClose={handleCloseSnackbar} 
+          <Alert
+            onClose={handleCloseSnackbar}
             severity={snackbar.severity}
-            sx={{ width: '100%' }}
+            sx={{ width: "100%" }}
           >
             {snackbar.message}
           </Alert>
